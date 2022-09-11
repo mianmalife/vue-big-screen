@@ -4,11 +4,14 @@
     <ul>
       <li v-for="(item, index) in task" :key="index">{{ item.name }}</li>
     </ul>
+    <button @click="cancel">action</button>
   </div>
 </template>
 
 <script>
-import $http from "@/shared/axios";
+import { fetchTask } from "./api";
+import { withCancelToken } from "@/shared/axios";
+const [request, abortRequest] = withCancelToken(fetchTask);
 export default {
   name: "App",
   data() {
@@ -16,17 +19,20 @@ export default {
       task: [],
     };
   },
-  mounted() {
-    $http({
-      url: "https://mock.jsont.run/ZAXEoaqkk95-S-xX_Bjsw",
-      method: "post",
-      data: {
-        p: ["a", "b"],
-        b: 3,
-      },
-    }).then((res) => {
-      this.task = res;
-    });
+  mounted() {},
+  methods: {
+    async cancel() {
+      const result = await request(
+        "https://mock.jsont.run/ZAXEoaqkk95-S-xX_Bjsw",
+        {
+          a: 1,
+        }
+      );
+      this.task = result;
+    },
+  },
+  destroyed() {
+    abortRequest();
   },
 };
 </script>

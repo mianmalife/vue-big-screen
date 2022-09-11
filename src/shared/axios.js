@@ -1,5 +1,7 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
 import qs from "qs";
+const controller = new AbortController();
 
 const instance = axios.create({
   baseURL: "",
@@ -7,9 +9,38 @@ const instance = axios.create({
   paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "comma" }),
 });
 
+axiosRetry(instance, { retries: 3 });
+
+export async function $http(url, config) {
+  const response = await instance.request({ url, ...config });
+  const result = response.data;
+  // 业务判断
+  return result;
+}
+
+export async function mockData(data) {
+  return Promise.resolve(data);
+}
+
+export function withCancelToken(ajax) {
+  let signal;
+  function send(data, config) {
+    cancel();
+    signal = controller.signal;
+    return ajax(data, { ...config, signal });
+  }
+  function cancel() {
+    if (signal) {
+      controller.abort();
+      signal = null;
+    }
+  }
+
+  return [send, cancel];
+}
+
 instance.interceptors.request.use(
   (config) => {
-    console.log(config);
     return config;
   },
   (error) => {
@@ -19,16 +50,11 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    return response.data;
+    return response;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
 
-const $http = instance;
-$http.mock = (_, data) => {
-  return Promise.resolve(data);
-};
-
-export default $http;
+export default instance;
