@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { fetchTask } from "./api";
-import { withCancelToken } from "@/shared/axios";
-const [request, abortRequest] = withCancelToken(fetchTask);
+// import { fetchTask } from "./api";
+import { $http } from "@/shared/axios";
+// const [request, abortRequest] = withCancelToken(fetchTask);
 export default {
   name: "App",
   data() {
@@ -19,10 +19,11 @@ export default {
       task: [],
     };
   },
+
   mounted() {},
   methods: {
     async cancel() {
-      const result = await request(
+      const result = await $http(
         "https://mock.jsont.run/ZAXEoaqkk95-S-xX_Bjsw",
         {
           a: 1,
@@ -31,13 +32,10 @@ export default {
       this.task = result;
     },
   },
-  destroyed() {
-    abortRequest();
-  },
 };
 </script>
 
-<style>
+<style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -45,5 +43,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  ul {
+    list-style: none;
+  }
 }
 </style>

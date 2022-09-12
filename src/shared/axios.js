@@ -1,5 +1,5 @@
 import axios from "axios";
-import axiosRetry from "axios-retry";
+import * as rax from "retry-axios";
 import qs from "qs";
 const controller = new AbortController();
 
@@ -9,7 +9,13 @@ const instance = axios.create({
   paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "comma" }),
 });
 
-axiosRetry(instance, { retries: 3 });
+instance.defaults.raxConfig = {
+  instance: instance,
+  retry: 3,
+  statusCodesToRetry: [[400, 599]],
+};
+
+rax.attach(instance);
 
 export async function $http(url, config) {
   const response = await instance.request({ url, ...config });
