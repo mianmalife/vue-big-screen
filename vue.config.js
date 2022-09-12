@@ -1,4 +1,6 @@
 const { defineConfig } = require("@vue/cli-service");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = defineConfig({
   transpileDependencies: true,
   assetsDir: "[name]",
@@ -23,4 +25,21 @@ module.exports = defineConfig({
     },
   },
   productionSourceMap: false,
+  chainWebpack: (config) => {
+    config.output
+      .filename("[name]/[name].[contenthash:8].js")
+      .chunkFilename("[name]/[name].[contenthash:8].js");
+    config
+      .plugin("extract-css")
+      .use(MiniCssExtractPlugin)
+      .tap((args) => {
+        args[0] = [
+          {
+            filename: "[name]/[name].[contenthash:8].css",
+            chunkFilename: "[name]/[name].[contenthash:8].css",
+          },
+        ];
+        return args[0];
+      });
+  },
 });
