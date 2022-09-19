@@ -3,25 +3,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  assetsDir: "[name]",
   pages: {
     index: {
       entry: "src/page/index/main.js",
       template: "src/page/index/index.html",
       filename: "index.html",
-      title: "Index page",
-    },
-    moon: {
-      entry: "src/page/moon/main.js",
-      template: "src/page/moon/index.html",
-      filename: "moon/index.html",
-      title: "Moon page",
-    },
-    detail: {
-      entry: "src/page/detail/main.js",
-      template: "src/page/detail/index.html",
-      filename: "detail/index.html",
-      title: "Detail page",
+      title: "深圳龙岗万科-经营数据一览",
     },
   },
   productionSourceMap: false,
@@ -29,6 +16,15 @@ module.exports = defineConfig({
     config.output
       .filename("[name]/[name].[contenthash:8].js")
       .chunkFilename("[name]/[name].[contenthash:8].js");
+    config.module.rule("fonts").set("generator", {
+      filename: "static/fonts/[name].[hash:8][ext]",
+    });
+    config.module.rule("svg").set("generator", {
+      filename: "static/img/[name].[hash:8][ext]",
+    });
+    config.module.rule("images").set("generator", {
+      filename: "static/img/[name].[hash:8][ext]",
+    });
     config
       .plugin("extract-css")
       .use(MiniCssExtractPlugin)

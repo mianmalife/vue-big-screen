@@ -1,7 +1,14 @@
 import axios from "axios";
 import * as rax from "retry-axios";
 import qs from "qs";
+import { createToastInterface, POSITION } from "vue-toastification";
+import "vue-toastification/dist/index.css";
+const pluginOptions = {
+  position: POSITION.TOP_CENTER,
+  timeout: 3000,
+};
 const controller = new AbortController();
+const toast = createToastInterface(pluginOptions);
 
 const instance = axios.create({
   baseURL: "",
@@ -20,6 +27,8 @@ rax.attach(instance);
 export async function $http(url, config) {
   const response = await instance.request({ url, ...config });
   const result = response.data;
+  console.log(result);
+  toast("success");
   // 业务判断
   return result;
 }
