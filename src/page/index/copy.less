@@ -1,0 +1,434 @@
+@import "@/assets/base.less";
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 1920px;
+  min-height: 1080px;
+  background: url("@/assets/image/basic_bg_lg.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#app {
+  font-family: "ys";
+  @font-face {
+    font-family: "ys";
+    src: url("@/assets/font/youshejianlihei.woff"),
+      url("@/assets/font/youshejianlihei.ttf") format("truetype");
+  }
+  // width: 100%;
+  height: 100%;
+  .top__bar {
+    height: 70px;
+    background: url("@/assets/image/basic_top_lg.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #66ccff;
+    .left,
+    .right {
+      font-family: Microsoft YaHei;
+      color: #66ccff;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      margin-top: 16px;
+    }
+    .left {
+      float: left;
+      .area {
+        font-size: 16px;
+        margin-left: 20px;
+      }
+      .time {
+        font-size: 20px;
+        margin-left: 20px;
+      }
+      .date {
+        margin-left: 20px;
+      }
+      .weekday {
+        margin-left: 10px;
+      }
+    }
+    .center {
+      font-size: 32px;
+      color: #ffffff;
+      text-shadow: 0px 0px 14px rgba(0, 170, 255, 0.8);
+      text-align: center;
+      width: 370px;
+      margin: 0 auto;
+      line-height: 70px;
+    }
+    .right {
+      float: right;
+      .temp {
+        margin-right: 20px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .middle__panel {
+    padding: 20px;
+    display: flex;
+    .item__panel {
+      width: calc(100% / 3);
+      margin-left: 25px;
+      &:first-child {
+        margin-left: 0;
+      }
+      .detail {
+        font-family: "Microsoft YaHei";
+        margin-top: 20px;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        .flag {
+          width: 160px;
+          height: 160px;
+          .name {
+            padding-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
+          }
+        }
+        .top {
+          background: url("@/assets/image/pass_lg.png") no-repeat;
+          background-position: center;
+          background-size: 100% 100%;
+        }
+        .center {
+          background: url("@/assets/image/car_lg.png") no-repeat;
+          background-position: center;
+          background-size: 100% 100%;
+        }
+        .bottom {
+          background: url("@/assets/image/sale_lg.png") no-repeat;
+          background-position: center;
+          background-size: 100% 100%;
+        }
+        .data__panel {
+          margin-left: 5px;
+          width: calc(100% - 155px);
+          height: 160px;
+          .top__panel {
+            height: 70px;
+            background: url("@/assets/image/card_bg_lg.png") no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+          }
+          .bott__panel {
+            margin-top: 5px;
+            height: 85px;
+            font-size: 12px;
+            color: #ffffff;
+            text-align: left;
+            .bott_wrapper {
+              display: flex;
+              align-items: center;
+              height: 100%;
+              .month {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                width: 46%;
+                height: 100%;
+                background: url("@/assets/image/card_bg_lg.png") no-repeat;
+                background-size: cover;
+                background-position: center;
+                .pass_flow {
+                  display: flex;
+                  align-items: center;
+                  .label_title {
+                    margin-left: 16px;
+                  }
+                  .pass_num {
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-left: 20px;
+                  }
+                }
+                .percent {
+                  .label_title {
+                    margin-left: 16px;
+                    color: #b3b3b3;
+                  }
+                }
+              }
+              .year {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                width: 54%;
+                height: 100%;
+                margin-left: 5px;
+                background: url("@/assets/image/card_bg_lg.png") no-repeat;
+                background-size: cover;
+                background-position: center;
+                .pass_flow {
+                  display: flex;
+                  align-items: center;
+                  .pass_num {
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-left: 20px;
+                  }
+                  .label_title {
+                    margin-left: 16px;
+                  }
+                }
+                .percent {
+                  .label_title {
+                    margin-left: 16px;
+                    color: #b3b3b3;
+                  }
+                }
+              }
+            }
+          }
+          .yesterday {
+            text-align: left;
+            padding-left: 16px;
+            height: 70px;
+            font-size: 12px;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            .day__pass {
+              display: flex;
+              align-items: center;
+              .pass_num {
+                margin-left: 20px;
+                font-weight: bold;
+                font-size: 18px;
+              }
+            }
+            .chain__yoy {
+              display: flex;
+              align-items: center;
+              .chain {
+                width: calc(50% - 21px);
+                .label_title {
+                  color: #b3b3b3;
+                }
+              }
+              .yoy {
+                width: 50%;
+                margin-left: 16px;
+                .label_title {
+                  color: #b3b3b3;
+                }
+              }
+            }
+            .flow {
+              .num {
+                margin-left: 20px;
+                font-size: 18px;
+                font-weight: bold;
+              }
+            }
+            .percent {
+              .title {
+                color: #b3b3b3;
+              }
+            }
+          }
+        }
+      }
+      .detail-center,
+      .detail-bottom {
+        margin-top: 15px;
+      }
+      .realtime_card_box {
+        font-family: "Microsoft YaHei";
+        margin: 10px auto auto auto;
+        width: 97%;
+        height: 262px;
+        background: url("@/assets/image/retime_bg_lg.png") no-repeat;
+        background-position: center;
+        background-size: cover;
+        .title {
+          padding-top: 30px;
+          padding-bottom: 27px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: bold;
+          color: #ffffff;
+          text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
+        }
+        .logo_pass,
+        .logo_car {
+          margin: 0 auto;
+          width: 70px;
+          height: 56px;
+        }
+        .logo_pass {
+          background: url("@/assets/image/realtime_lg.png") no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+        .logo_car {
+          background: url("@/assets/image/car_flow_lg.png") no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+        .flow_data {
+          // background-color: #b3b3b3;
+          text-align: center;
+          margin-top: 15px;
+          .card {
+            display: inline-block;
+            margin-left: 5px;
+            width: 40px;
+            height: 44px;
+            line-height: 44px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            background: url("@/assets/image/passflow_bg.png") no-repeat;
+            background-position: center;
+            background-size: 100% 100%;
+            &:first-child {
+              margin-left: 0;
+            }
+          }
+          .separator {
+            background: none;
+            width: 6px;
+            height: 44px;
+            vertical-align: top;
+            line-height: 32px;
+          }
+        }
+        .data_time {
+          margin-top: 34px;
+          font-size: 12px;
+          font-style: italic;
+          color: #66ccff;
+          text-align: center;
+        }
+      }
+    }
+    .item__title {
+      height: 32px;
+      line-height: 32px;
+      color: #ffffff;
+      font-size: 16px;
+      text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
+      padding-left: 15px;
+      background: url("@/assets/image/item_title_lg.png");
+      background-position: center;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+    }
+  }
+  .realtime_flow_acc {
+    // background-color: #50575a;
+    padding-top: 20px;
+    height: 240px;
+    .passflow_chart {
+      height: 100%;
+    }
+  }
+  .bottom__panel {
+    display: flex;
+    padding: 26px 20px 0 20px;
+    height: calc(100% - 700px);
+    .item_panel {
+      width: calc(100% / 3);
+      height: 100%;
+      margin-left: 25px;
+      &:first-child {
+        margin-left: 0;
+      }
+      .title_bar {
+        display: flex;
+        justify-content: space-between;
+        height: 32px;
+        line-height: 32px;
+        color: #ffffff;
+        font-size: 16px;
+        text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
+        padding-left: 15px;
+        background: url("@/assets/image/item_title_lg.png");
+        background-position: center;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        .title {
+          span {
+            font-size: 12px;
+          }
+        }
+        .unit {
+          font-family: "Microsoft YaHei";
+          color: #33bbff;
+          font-size: 12px;
+          font-style: italic;
+          padding-right: 20px;
+        }
+      }
+      .bottom_chart {
+        padding-top: 20px;
+        height: 328px;
+        .swiper-container {
+          height: 300px;
+        }
+      }
+    }
+    .warp {
+      font-family: "Microsoft YaHei";
+      height: 300px;
+      margin: 0 auto;
+      overflow: hidden;
+      font-size: 12px;
+      color: #b3b3b3;
+      ul {
+        // li,
+        // a {
+        //   display: block;
+        //   height: 30px;
+        //   line-height: 30px;
+        //   display: flex;
+        //   align-items: center;
+        // }
+        li {
+          display: block;
+          height: 30px;
+          line-height: 30px;
+          display: flex;
+          align-items: center;
+          .ranking {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            background: rgba(255, 187, 84, 0.2);
+            border: 1px solid #ffbb54;
+            border-radius: 5px;
+            text-align: center;
+            margin-right: 20px;
+          }
+          .brand_name {
+            flex: 1;
+            flex-grow: 4;
+          }
+          .progressbar {
+            flex: 1;
+            flex-shrink: 16;
+            flex-basis: 420px;
+          }
+          .data {
+            flex: 1;
+            flex-grow: 4;
+            text-align: left;
+            text-indent: 7px;
+          }
+        }
+      }
+    }
+  }
+}
