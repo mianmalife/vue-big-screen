@@ -13,15 +13,28 @@ module.exports = defineConfig({
   },
   productionSourceMap: false,
   chainWebpack: (config) => {
+    console.log(config.module);
     config.output
       .filename("[name]/[name].[contenthash:8].js")
       .chunkFilename("[name]/[name].[contenthash:8].js");
     config.module.rule("fonts").set("generator", {
       filename: "static/fonts/[name].[hash:8][ext]",
     });
-    config.module.rule("svg").set("generator", {
-      filename: "static/img/[name].[hash:8][ext]",
-    });
+    // config.module.rule("svg").set("generator", {
+    //   filename: "static/img/[name].[hash:8][ext]",
+    // });
+    const svgRule = config.module.rule("svg");
+    svgRule.uses.clear();
+    svgRule.delete("type");
+    svgRule.delete("generator");
+    svgRule
+      .test(/\.svg$/)
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({
+        symbolId: "icon-[name]",
+      });
+
     config.module.rule("images").set("generator", {
       filename: "static/img/[name].[hash:8][ext]",
     });

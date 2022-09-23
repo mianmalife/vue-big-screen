@@ -2,14 +2,25 @@
   <div id="app">
     <div class="top__bar clearfix">
       <div class="left">
-        <div class="area">深圳-龙岗</div>
-        <div class="time">17:03:28</div>
-        <div class="date">2022-09-19</div>
-        <div class="weekday">星期一</div>
+        <div class="area">深圳龙岗万科</div>
       </div>
       <div class="right">
-        <div class="weather">多云</div>
-        <div class="temp">24℃</div>
+        <div class="time">17:03:28</div>
+        <div class="datetime">
+          <div class="weekday">星期一</div>
+          <div class="date">2022-09-19</div>
+        </div>
+        <div class="weather_info">
+          <svg-icon
+            icon-class="小雨"
+            :stroke="'#4bc8c8'"
+            className="weather_icon"
+          ></svg-icon>
+          <div>
+            <div class="weather">多云</div>
+            <div class="temp">24～27℃</div>
+          </div>
+        </div>
       </div>
       <div class="center">经营数据一览</div>
     </div>
@@ -202,16 +213,17 @@
           <div class="title">今日客流累计（人次）</div>
           <div class="logo_pass"></div>
           <div class="flow_data">
-            <span class="card">2</span>
-            <span class="card separator">,</span>
-            <span class="card">2</span>
-            <span class="card">3</span>
-            <span class="card">5</span>
+            <CountFlop :val="val" />
           </div>
           <div class="data_time">数据时间:&ensp;9:45</div>
         </div>
         <div class="realtime_flow_acc">
-          <v-chart class="passflow_chart" :option="option" />
+          <v-chart
+            class="passflow_chart"
+            :option="option"
+            ref="passRef"
+            autoresize
+          />
         </div>
       </div>
       <div class="item__panel">
@@ -220,16 +232,12 @@
           <div class="title">今日车流累计（辆）</div>
           <div class="logo_car"></div>
           <div class="flow_data">
-            <span class="card">2</span>
-            <span class="card separator">,</span>
-            <span class="card">2</span>
-            <span class="card">3</span>
-            <span class="card">5</span>
+            <CountFlop :val="val" />
           </div>
           <div class="data_time">数据时间:&ensp;9:45</div>
         </div>
         <div class="realtime_flow_acc">
-          <v-chart class="passflow_chart" :option="option" />
+          <v-chart class="passflow_chart" :option="option" autoresize />
         </div>
       </div>
     </div>
@@ -239,7 +247,11 @@
           <div class="title">销售数据<span>（近12月）</span></div>
         </div>
         <div class="bottom_chart">
-          <v-chart class="chart_component" :option="saleYearOption" />
+          <v-chart
+            class="chart_component"
+            :option="saleYearOption"
+            autoresize
+          />
         </div>
       </div>
       <div class="item_panel">
@@ -253,17 +265,21 @@
               <ul>
                 <li v-for="(item, index) in listData.slice(0, 11)" :key="index">
                   <span class="ranking" v-text="index + 1"></span>
-                  <span class="brand_name" v-text="item.name"></span>
-                  <progress-bar
-                    :val="item.value"
-                    :max="65487"
-                    class="progressbar"
-                    :size="6"
-                    bg-color="rgba(0, 136, 255, 0.2)"
-                    bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
-                    :bar-border-radius="3"
-                  ></progress-bar>
-                  <span class="data" v-text="item.value"></span>
+                  <div class="progress_bandname">
+                    <span class="brand_name" v-text="item.name"></span>
+                    <div class="progress_value">
+                      <progress-bar
+                        :val="item.value"
+                        :max="65487"
+                        class="progressbar"
+                        :size="6"
+                        bg-color="rgba(0, 136, 255, 0.2)"
+                        bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
+                        :bar-border-radius="3"
+                      ></progress-bar>
+                      <span class="data" v-text="item.value"></span>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </swiper-slide>
@@ -271,19 +287,24 @@
               <ul class="item">
                 <li v-for="(item, index) in listData.slice(10)" :key="index">
                   <span class="ranking" v-text="index + 11"></span>
-                  <span class="brand_name" v-text="item.name"></span>
-                  <progress-bar
-                    :val="item.value"
-                    :max="65487"
-                    class="progressbar"
-                    :size="6"
-                    bg-color="rgba(0, 136, 255, 0.2)"
-                    bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
-                    :bar-border-radius="3"
-                  ></progress-bar>
-                  <span class="data" v-text="item.value"></span>
-                </li></ul
-            ></swiper-slide>
+                  <div class="progress_bandname">
+                    <span class="brand_name" v-text="item.name"></span>
+                    <div class="progress_value">
+                      <progress-bar
+                        :val="item.value"
+                        :max="65487"
+                        class="progressbar"
+                        :size="6"
+                        bg-color="rgba(0, 136, 255, 0.2)"
+                        bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
+                        :bar-border-radius="3"
+                      ></progress-bar>
+                      <span class="data" v-text="item.value"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </swiper-slide>
           </swiper>
         </div>
       </div>
@@ -298,17 +319,21 @@
               <ul>
                 <li v-for="(item, index) in listData.slice(0, 11)" :key="index">
                   <span class="ranking" v-text="index + 1"></span>
-                  <span class="brand_name" v-text="item.name"></span>
-                  <progress-bar
-                    :val="item.value"
-                    :max="65487"
-                    class="progressbar"
-                    :size="6"
-                    bg-color="rgba(0, 136, 255, 0.2)"
-                    bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
-                    :bar-border-radius="3"
-                  ></progress-bar>
-                  <span class="data" v-text="item.value"></span>
+                  <div class="progress_bandname">
+                    <span class="brand_name" v-text="item.name"></span>
+                    <div class="progress_value">
+                      <progress-bar
+                        :val="item.value"
+                        :max="65487"
+                        class="progressbar"
+                        :size="6"
+                        bg-color="rgba(0, 136, 255, 0.2)"
+                        bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
+                        :bar-border-radius="3"
+                      ></progress-bar>
+                      <span class="data" v-text="item.value"></span>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </swiper-slide>
@@ -316,63 +341,25 @@
               <ul class="item">
                 <li v-for="(item, index) in listData.slice(10)" :key="index">
                   <span class="ranking" v-text="index + 11"></span>
-                  <span class="brand_name" v-text="item.name"></span>
-                  <progress-bar
-                    :val="item.value"
-                    :max="65487"
-                    class="progressbar"
-                    :size="6"
-                    bg-color="rgba(0, 136, 255, 0.2)"
-                    bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
-                    :bar-border-radius="3"
-                  ></progress-bar>
-                  <span class="data" v-text="item.value"></span>
-                </li></ul
-            ></swiper-slide>
+                  <div class="progress_bandname">
+                    <span class="brand_name" v-text="item.name"></span>
+                    <div class="progress_value">
+                      <progress-bar
+                        :val="item.value"
+                        :max="65487"
+                        class="progressbar"
+                        :size="6"
+                        bg-color="rgba(0, 136, 255, 0.2)"
+                        bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
+                        :bar-border-radius="3"
+                      ></progress-bar>
+                      <span class="data" v-text="item.value"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </swiper-slide>
           </swiper>
-          <!-- <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <ul>
-                  <li
-                    v-for="(item, index) in listData.slice(0, 11)"
-                    :key="index"
-                  >
-                    <span class="ranking" v-text="index + 1"></span>
-                    <span class="brand_name" v-text="item.name"></span>
-                    <progress-bar
-                      :val="item.value"
-                      :max="65487"
-                      class="progressbar"
-                      :size="6"
-                      bg-color="rgba(0, 136, 255, 0.2)"
-                      bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
-                      :bar-border-radius="3"
-                    ></progress-bar>
-                    <span class="data" v-text="item.value"></span>
-                  </li>
-                </ul>
-              </div>
-              <div class="swiper-slide">
-                <ul class="item">
-                  <li v-for="(item, index) in listData.slice(10)" :key="index">
-                    <span class="ranking" v-text="index + 11"></span>
-                    <span class="brand_name" v-text="item.name"></span>
-                    <progress-bar
-                      :val="item.value"
-                      :max="65487"
-                      class="progressbar"
-                      :size="6"
-                      bg-color="rgba(0, 136, 255, 0.2)"
-                      bar-color="linear-gradient(-90deg, #ff6868 0%, rgba(255,104,104,0.1) 100%)"
-                      :bar-border-radius="3"
-                    ></progress-bar>
-                    <span class="data" v-text="item.value"></span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -395,6 +382,9 @@ import {
 } from "echarts/components";
 import VChart from "vue-echarts";
 import tooltipBg from "@/assets/image/tootip_bg.png";
+import SvgIcon from "@/component/svgIcon.vue";
+import CountFlop from "@/component/conutFlop.vue";
+import { autoHover } from "@/util/tooltip.js";
 use([
   CanvasRenderer,
   LineChart,
@@ -411,6 +401,8 @@ export default {
     ProgressBar,
     Swiper,
     SwiperSlide,
+    SvgIcon,
+    CountFlop,
   },
   provide: {},
   directives: {
@@ -418,6 +410,7 @@ export default {
   },
   data: function () {
     return {
+      val: "233,232",
       task: [],
       option: {
         tooltip: {
@@ -669,7 +662,7 @@ export default {
           value: 65487,
         },
         {
-          name: "维纳国际影城维纳国际影城",
+          name: "维纳国际影城维纳国际影城维纳国际影城",
           value: 60123,
         },
         {
@@ -754,15 +747,32 @@ export default {
         },
         loop: true, // 循环模式选项
       },
+      tootipTimer: null,
     };
   },
 
   mounted: function () {
-    window.onresize = function () {
-      location.reload();
-    };
+    // window.onresize = function () {
+    //   location.reload();
+    // };
+    setInterval(() => {
+      // parseInt(Math.random() * 100000).toLocaleString()
+      this.val = parseInt(Math.random() * 100000).toLocaleString();
+    }, 4000);
+    console.log(this.$refs.passRef.chart);
+    this.tootipTimer && this.tooltipTimer.clearLoop();
+    this.tootipTimer = 0;
+    this.tootipTimer = autoHover(
+      this.$refs.passRef,
+      {},
+      this.option.xAxis.data.length,
+      1000
+    );
   },
   methods: {},
+  destroyed: function () {
+    this.tooltipTimer.clearLoop();
+  },
 };
 </script>
 
@@ -799,30 +809,40 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     color: #66ccff;
-    .left,
     .right {
       font-family: Microsoft YaHei;
       color: #66ccff;
       font-size: 14px;
       display: flex;
       align-items: center;
-      .pxToVh(margin-top, 16);
+      .pxToVh(margin-top, 10);
+      .time {
+        font-size: 20px;
+        .pxToVh(margin-right, 30);
+      }
+      .datetime {
+        font-size: 14px;
+        .pxToVh(margin-left, 20);
+        .pxToVh(margin-right, 30);
+      }
+      .weather_info {
+        display: flex;
+        align-items: center;
+        .pxToVh(margin-right, 20);
+        .weather_icon {
+          .pxToVh(margin-right, 10);
+          font-size: 30px;
+        }
+      }
     }
     .left {
       float: left;
+      .pxToVh(margin-top, 14);
       .area {
-        font-size: 16px;
+        font-size: 24px;
+        color: #ffffff;
+        text-shadow: 0px 0px 14px rgba(0, 170, 255, 0.8);
         .pxToVh(margin-left, 20);
-      }
-      .time {
-        font-size: 20px;
-        .pxToVh(margin-left, 20);
-      }
-      .date {
-        .pxToVh(margin-left, 20);
-      }
-      .weekday {
-        .pxToVh(margin-left, 10);
       }
     }
     .center {
@@ -836,10 +856,6 @@ body {
     }
     .right {
       float: right;
-      .temp {
-        .pxToVh(margin-right, 20);
-        .pxToVh(margin-left, 10);
-      }
     }
   }
   .middle__panel {
@@ -1093,6 +1109,58 @@ body {
             vertical-align: top;
             .pxToVh(line-height, 32);
           }
+          // .count-flop,
+          // .count-flop-box {
+          //   .pxToVh(height, 44);
+          //   .pxToVh(line-height, 44);
+          //   border: none;
+          //   margin-right: 0;
+          //   font-size: 24px;
+          // }
+          // .count-flop-num {
+          //   margin-left: 5px;
+          //   .pxToVh(width, 40);
+          //   .pxToVh(height, 44);
+          //   .pxToVh(line-height, 44);
+          //   font-weight: bold;
+          //   color: #ffffff;
+          //   background: url("@/assets/image/passflow_bg.png") no-repeat;
+          //   background-position: center;
+          //   background-size: 100% 100%;
+          // }
+          .count-flop {
+            display: block;
+            .pxToVh(height, 44);
+            .pxToVh(line-height, 44);
+          }
+          .count-flop-box {
+            border-radius: 0;
+            margin-right: 0;
+            margin-left: 5px;
+            border: none;
+            .pxToVh(width, 40);
+            .pxToVh(height, 44);
+            .pxToVh(line-height, 44);
+            font-weight: bold;
+            color: #ffffff;
+            background: url("@/assets/image/passflow_bg.png") no-repeat;
+            background-position: center;
+            background-size: 100% 100%;
+            font-size: 24px;
+            &:first-child {
+              margin-left: 0;
+            }
+          }
+          .count-flop-point {
+            margin-right: 0;
+            color: #ffffff;
+            margin-left: 5px;
+            .pxToVh(line-height, 26);
+            font-size: 28px;
+            .count-flop-content {
+              height: 100%;
+            }
+          }
         }
         .data_time {
           .pxToVh(margin-top, 28);
@@ -1189,9 +1257,18 @@ body {
                 text-align: center;
                 .pxToVh(margin-right, 20);
               }
+              .progress_bandname {
+                flex: 1;
+                flex-basis: .pxToVh(width, 420);
+                line-height: normal;
+                .progress_value {
+                  display: flex;
+                  align-items: center;
+                }
+              }
               .brand_name {
-                flex: 2;
-                flex-shrink: 0;
+                // flex: 2;
+                // flex-shrink: 0;
                 color: #b3b3b3;
                 text-align: right;
                 .pxToVh(margin-right, 10);
@@ -1201,14 +1278,15 @@ body {
                 // text-overflow: ellipsis;
               }
               .progressbar {
-                flex: 1;
+                flex: 8;
                 // flex-shrink: 16;
-                .pxToVh(flex-basis, 420);
               }
               .data {
                 color: #fff;
                 flex: 1;
                 // flex-grow: 4;
+                // .pxToVh(flex-basis, 100);
+                flex-shrink: 0;
                 text-align: left;
                 .pxToVh(text-indent, 7);
               }
