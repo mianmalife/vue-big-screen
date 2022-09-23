@@ -14,114 +14,116 @@
 
 export function autoHover(myChart, option, num, time) {
   if (!myChart) return;
-  var defaultData = {
-    // 设置默认值
-    time: 3000,
-    num: 14,
-  };
-  if (!time) {
-    time = defaultData.time;
-  }
-  if (!num) {
-    num = defaultData.num;
-  }
-
-  var count = 0;
-  var timeTicket = 0;
-
-  // 清除定时器
-  function clearLoop() {
-    if (timeTicket) {
-      clearInterval(timeTicket);
-      timeTicket = 0;
+  myChart.forEach((item, index) => {
+    var defaultData = {
+      // 设置默认值
+      time: 3000,
+      num: 14,
+    };
+    if (!time) {
+      time = defaultData.time;
+    }
+    if (!num) {
+      num = defaultData.num;
     }
 
-    myChart.off("mousemove", stopAutoShow);
-    myChart.getZr().off("mousemove", zRenderMouseMove);
-    // myChart.getZr().off('globalout', zRenderGlobalOut);
-  }
+    var count = 0;
+    var timeTicket = 0;
 
-  // 关闭轮播
-  function stopAutoShow() {
-    if (timeTicket) {
-      clearInterval(timeTicket);
-      timeTicket = 0;
-    }
-  }
+    // 清除定时器
+    function clearLoop() {
+      if (timeTicket) {
+        clearInterval(timeTicket);
+        timeTicket = 0;
+      }
 
-  function zRenderMouseMove(param) {
-    if (param.event) {
-      // 阻止canvas上的鼠标移动事件冒泡
-      // param.event.cancelBubble = true;
+      item.chart.off("mousemove", stopAutoShow);
+      item.chart.getZr().off("mousemove", zRenderMouseMove);
+      // item.getZr().off('globalout', zRenderGlobalOut);
     }
 
-    stopAutoShow();
-  }
-
-  timeTicket && clearInterval(timeTicket);
-  timeTicket = setInterval(function () {
-    myChart.dispatchAction({
-      type: "downplay",
-      seriesIndex: 0, // serieIndex的索引值   可以触发多个
-    });
-    myChart.dispatchAction({
-      type: "highlight",
-      seriesIndex: 0,
-      dataIndex: count,
-    });
-    myChart.dispatchAction({
-      type: "showTip",
-      seriesIndex: 0,
-      dataIndex: count,
-    });
-    count++;
-    if (count >= num) {
-      count = 0;
+    // 关闭轮播
+    function stopAutoShow() {
+      if (timeTicket) {
+        clearInterval(timeTicket);
+        timeTicket = 0;
+      }
     }
-  }, time);
-  myChart.chart &&
-    myChart.chart.on("mouseover", function (params) {
-      clearInterval(timeTicket);
-      myChart.dispatchAction({
+
+    function zRenderMouseMove(param) {
+      if (param.event) {
+        // 阻止canvas上的鼠标移动事件冒泡
+        // param.event.cancelBubble = true;
+      }
+
+      stopAutoShow();
+    }
+
+    timeTicket && clearInterval(timeTicket);
+    timeTicket = setInterval(function () {
+      item.dispatchAction({
         type: "downplay",
-        seriesIndex: 0,
+        seriesIndex: 0, // serieIndex的索引值   可以触发多个
       });
-      myChart.dispatchAction({
+      item.dispatchAction({
         type: "highlight",
         seriesIndex: 0,
-        dataIndex: params.dataIndex,
+        dataIndex: count,
       });
-      myChart.dispatchAction({
+      item.dispatchAction({
         type: "showTip",
         seriesIndex: 0,
-        dataIndex: params.dataIndex,
+        dataIndex: count,
       });
-    });
-  myChart.chart &&
-    myChart.chart.on("mouseout", function () {
-      timeTicket && clearInterval(timeTicket);
-      timeTicket = setInterval(function () {
-        myChart.dispatchAction({
+      count++;
+      if (count >= num[index]) {
+        count = 0;
+      }
+    }, time);
+    item.chart &&
+      item.chart.on("mouseover", function (params) {
+        clearInterval(timeTicket);
+        item.dispatchAction({
           type: "downplay",
-          seriesIndex: 0, // serieIndex的索引值   可以触发多个
+          seriesIndex: 0,
         });
-        myChart.dispatchAction({
+        item.dispatchAction({
           type: "highlight",
           seriesIndex: 0,
-          dataIndex: count,
+          dataIndex: params.dataIndex,
         });
-        myChart.dispatchAction({
+        item.dispatchAction({
           type: "showTip",
           seriesIndex: 0,
-          dataIndex: count,
+          dataIndex: params.dataIndex,
         });
-        count++;
-        if (count >= num) {
-          count = 0;
-        }
-      }, time);
-    });
-  return {
-    clearLoop: clearLoop,
-  };
+      });
+    item.chart &&
+      item.chart.on("mouseout", function () {
+        timeTicket && clearInterval(timeTicket);
+        timeTicket = setInterval(function () {
+          item.dispatchAction({
+            type: "downplay",
+            seriesIndex: 0, // serieIndex的索引值   可以触发多个
+          });
+          item.dispatchAction({
+            type: "highlight",
+            seriesIndex: 0,
+            dataIndex: count,
+          });
+          item.dispatchAction({
+            type: "showTip",
+            seriesIndex: 0,
+            dataIndex: count,
+          });
+          count++;
+          if (count >= num[index]) {
+            count = 0;
+          }
+        }, time);
+      });
+    return {
+      clearLoop: clearLoop,
+    };
+  });
 }

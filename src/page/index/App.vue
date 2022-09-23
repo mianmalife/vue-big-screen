@@ -250,6 +250,7 @@
           <v-chart
             class="chart_component"
             :option="saleYearOption"
+            ref="saleRef"
             autoresize
           />
         </div>
@@ -411,7 +412,6 @@ export default {
   data: function () {
     return {
       val: "233,232",
-      task: [],
       option: {
         tooltip: {
           trigger: "axis",
@@ -743,35 +743,33 @@ export default {
         direction: "vertical", // 垂直切换选项
         autoplay: {
           //自动开始
-          delay: 250000, //时间间隔
+          delay: 2500, //时间间隔
         },
         loop: true, // 循环模式选项
       },
       tootipTimer: null,
+      tootipSaleChart: null,
     };
   },
 
   mounted: function () {
-    // window.onresize = function () {
-    //   location.reload();
-    // };
     setInterval(() => {
-      // parseInt(Math.random() * 100000).toLocaleString()
       this.val = parseInt(Math.random() * 100000).toLocaleString();
     }, 4000);
-    console.log(this.$refs.passRef.chart);
+    console.log(this.$refs.passRef.chart, this.$refs.saleRef.chart);
     this.tootipTimer && this.tooltipTimer.clearLoop();
     this.tootipTimer = 0;
-    this.tootipTimer = autoHover(
-      this.$refs.passRef,
+    this.tootipSaleChart = autoHover(
+      [this.$refs.passRef, this.$refs.saleRef],
       {},
-      this.option.xAxis.data.length,
-      1000
+      [this.option.xAxis.data.length, this.saleYearOption.xAxis.data.length],
+      2500
     );
   },
   methods: {},
   destroyed: function () {
-    this.tooltipTimer.clearLoop();
+    clearInterval(this.tootipTimer);
+    clearInterval(this.tootipSaleChart);
   },
 };
 </script>
