@@ -14,19 +14,18 @@
 
 export function autoHover(myChart, option, num, time) {
   if (!myChart) return;
-  myChart.forEach((item, index) => {
-    var defaultData = {
-      // 设置默认值
-      time: 3000,
-      num: 14,
-    };
-    if (!time) {
-      time = defaultData.time;
-    }
-    if (!num) {
-      num = defaultData.num;
-    }
-
+  var defaultData = {
+    // 设置默认值
+    time: 3000,
+    num: 14,
+  };
+  if (!time) {
+    time = defaultData.time;
+  }
+  if (!num) {
+    num = defaultData.num;
+  }
+  myChart.forEach((instance, index) => {
     var count = 0;
     var timeTicket = 0;
 
@@ -37,40 +36,31 @@ export function autoHover(myChart, option, num, time) {
         timeTicket = 0;
       }
 
-      item.chart.off("mousemove", stopAutoShow);
-      item.chart.getZr().off("mousemove", zRenderMouseMove);
+      // instance.chart.off("mousemove", stopAutoShow);
+      // instance.chart.getZr().off("mousemove", zRenderMouseMove);
       // item.getZr().off('globalout', zRenderGlobalOut);
     }
 
     // 关闭轮播
-    function stopAutoShow() {
-      if (timeTicket) {
-        clearInterval(timeTicket);
-        timeTicket = 0;
-      }
-    }
-
-    function zRenderMouseMove(param) {
-      if (param.event) {
-        // 阻止canvas上的鼠标移动事件冒泡
-        // param.event.cancelBubble = true;
-      }
-
-      stopAutoShow();
-    }
+    // function stopAutoShow() {
+    //   if (timeTicket) {
+    //     clearInterval(timeTicket);
+    //     timeTicket = 0;
+    //   }
+    // }
 
     timeTicket && clearInterval(timeTicket);
     timeTicket = setInterval(function () {
-      item.dispatchAction({
+      instance.dispatchAction({
         type: "downplay",
         seriesIndex: 0, // serieIndex的索引值   可以触发多个
       });
-      item.dispatchAction({
+      instance.dispatchAction({
         type: "highlight",
         seriesIndex: 0,
         dataIndex: count,
       });
-      item.dispatchAction({
+      instance.dispatchAction({
         type: "showTip",
         seriesIndex: 0,
         dataIndex: count,
@@ -80,38 +70,38 @@ export function autoHover(myChart, option, num, time) {
         count = 0;
       }
     }, time);
-    item.chart &&
-      item.chart.on("mouseover", function (params) {
+    instance.chart &&
+      instance.chart.on("mouseover", function (params) {
         clearInterval(timeTicket);
-        item.dispatchAction({
+        instance.dispatchAction({
           type: "downplay",
           seriesIndex: 0,
         });
-        item.dispatchAction({
+        instance.dispatchAction({
           type: "highlight",
           seriesIndex: 0,
           dataIndex: params.dataIndex,
         });
-        item.dispatchAction({
+        instance.dispatchAction({
           type: "showTip",
           seriesIndex: 0,
           dataIndex: params.dataIndex,
         });
       });
-    item.chart &&
-      item.chart.on("mouseout", function () {
+    instance.chart &&
+      instance.chart.on("mouseout", function () {
         timeTicket && clearInterval(timeTicket);
         timeTicket = setInterval(function () {
-          item.dispatchAction({
+          instance.dispatchAction({
             type: "downplay",
             seriesIndex: 0, // serieIndex的索引值   可以触发多个
           });
-          item.dispatchAction({
+          instance.dispatchAction({
             type: "highlight",
             seriesIndex: 0,
             dataIndex: count,
           });
-          item.dispatchAction({
+          instance.dispatchAction({
             type: "showTip",
             seriesIndex: 0,
             dataIndex: count,

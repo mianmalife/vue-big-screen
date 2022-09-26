@@ -2,6 +2,15 @@ const { defineConfig } = require("@vue/cli-service");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = defineConfig({
+  devServer: {
+    proxy: {
+      "": {
+        target: "http://localhost:4000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   transpileDependencies: true,
   pages: {
     index: {

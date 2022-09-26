@@ -1,4 +1,4 @@
-import { $http } from "@/shared/axios";
+import { $http, mockData } from "@/shared/axios";
 const COMMON_PARAMS = {
   version: "S500BigScreenV1.0",
   method: "post",
@@ -11,17 +11,53 @@ export const getWeatherData = () => {
 
 //获取销售KPI数据
 export const getSaleKpiData = () => {
-  return $http("/GetBigScreenSalesKPI", COMMON_PARAMS);
+  const data = {
+    Month: 8,
+    Year: 2021,
+    SalesAmount: 1234.48,
+    SalesMoM: 12.23,
+    SalesYoY: -1.23,
+    BagRate: 31.23,
+    ATV: 123.25,
+    ATVMoM: 12.23,
+  };
+
+  return mockData("/GetBigScreenSalesKPI", COMMON_PARAMS, data);
 };
 
 //获取客流KPI数据
 export const getTrafficKpiData = () => {
-  return $http("/GetBigScreenTrafficKPI", COMMON_PARAMS);
+  const data = {
+    Month: 8,
+    Year: 2021,
+    FlowsYesterday: 1234.48,
+    FlowsDayQoQ: -12.23,
+    FlowsDayYoY: 1.23,
+    FlowsMonth: 31.23,
+    FlowsMonthQoQ: 123.25,
+    FlowsMonthYoY: 12.23,
+    FlowsYear: 123,
+    FlowsYearQoQ: 55,
+  };
+  return mockData("/GetBigScreenTrafficKPI", COMMON_PARAMS, data);
 };
 
 //获取车流KPI数据
 export const getVehicleKpiData = () => {
-  return $http("/GetBigScreenVehicleKPI", COMMON_PARAMS);
+  const data = {
+    Month: 8,
+    Year: 2021,
+    FlowsYesterday: 1234.48,
+    FlowsDayQoQ: 12.23,
+    FlowsDayYoY: -1.23,
+    FlowsMonth: 31.23,
+    FlowsMonthQoQ: 123.25,
+    FlowsMonthYoY: 12.23,
+    FlowsYear: 123,
+    FlowsYearQoQ: 55,
+  };
+
+  return mockData("/GetBigScreenVehicleKPI", COMMON_PARAMS, data);
 };
 
 // 获取客流实时分析数据

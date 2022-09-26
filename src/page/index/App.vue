@@ -37,12 +37,35 @@
                 <div class="month">
                   <div class="pass_flow">
                     <span class="label_title">昨日客流(人次)</span>
-                    <span class="pass_num">17,548</span>
+                    <span class="pass_num">{{
+                      typeof passFlowData.FlowsYesterday === "number"
+                        ? passFlowData.FlowsYesterday.toLocaleString()
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <div>
                       <span class="label_title">环比(较上一日):&ensp;</span>
-                      <span>↓ -4.52%</span>
+                      <span
+                        v-if="
+                          typeof passFlowData.FlowsDayQoQ === 'number' &&
+                          passFlowData.FlowsDayQoQ !== 0
+                        "
+                        :style="{
+                          color:
+                            passFlowData.FlowsDayQoQ > 0
+                              ? '#00FF76'
+                              : '#FF3333',
+                        }"
+                        >{{ passFlowData.FlowsDayQoQ > 0 ? "↑" : "↓" }}
+                        {{
+                          passFlowData.FlowsDayQoQ > 0
+                            ? `+${passFlowData.FlowsDayQoQ}%`
+                            : `${passFlowData.FlowsDayQoQ}%`
+                        }}</span
+                      >
+                      <span v-else-if="passFlowData.FlowsDayQoQ === 0">0</span>
+                      <span v-else>--</span>
                     </div>
                   </div>
                 </div>
@@ -53,7 +76,20 @@
                   </div>
                   <div class="percent">
                     <span class="label_title">同比(上周同日):&ensp;</span>
-                    <span>↑ +12.00%</span>
+                    <span
+                      v-if="
+                        typeof passFlowData.FlowsDayYoY === 'number' &&
+                        passFlowData.FlowsDayYoY !== 0
+                      "
+                      :style="{
+                        color:
+                          passFlowData.FlowsDayYoY > 0 ? '#00FF76' : '#FF3333',
+                      }"
+                      >{{ passFlowData.FlowsDayYoY > 0 ? "↑" : "↓" }}
+                      {{ passFlowData.FlowsDayYoY + "%" }}
+                    </span>
+                    <span v-else-if="passFlowData.FlowsDayYoY === 0">0</span>
+                    <span v-else>--</span>
                   </div>
                 </div>
               </div>
@@ -63,27 +99,94 @@
                 <div class="month">
                   <div class="pass_flow">
                     <span class="label_title">8月客流(万人次)</span>
-                    <span class="pass_num">23.28</span>
+                    <span class="pass_num">{{
+                      typeof passFlowData.FlowsMonth === "number"
+                        ? passFlowData.FlowsMonth.toLocaleString()
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <div>
                       <span class="label_title">环比(较上一月):&ensp;</span>
-                      <span>↓ -4.52%</span>
+                      <span
+                        v-if="
+                          typeof passFlowData.FlowsMonthQoQ === 'number' &&
+                          passFlowData.FlowsMonthQoQ !== 0
+                        "
+                        :style="{
+                          color:
+                            passFlowData.FlowsMonthQoQ > 0
+                              ? '#00FF76'
+                              : '#FF3333',
+                        }"
+                        >{{ passFlowData.FlowsMonthQoQ > 0 ? "↑" : "↓" }}
+                        {{
+                          passFlowData.FlowsMonthQoQ > 0
+                            ? `+${passFlowData.FlowsMonthQoQ}%`
+                            : `${passFlowData.FlowsMonthQoQ}%`
+                        }}</span
+                      >
+                      <span v-else-if="passFlowData.FlowsMonthQoQ === 0"
+                        >0</span
+                      >
+                      <span v-else>--</span>
                     </div>
                     <div>
                       <span class="label_title">同比(去年同月):&ensp;</span>
-                      <span>↑ +12.00%</span>
+                      <span
+                        v-if="
+                          typeof passFlowData.FlowsMonthYoY === 'number' &&
+                          passFlowData.FlowsMonthYoY !== 0
+                        "
+                        :style="{
+                          color:
+                            passFlowData.FlowsMonthYoY > 0
+                              ? '#00FF76'
+                              : '#FF3333',
+                        }"
+                        >{{ passFlowData.FlowsMonthYoY > 0 ? "↑" : "↓" }}
+                        {{
+                          passFlowData.FlowsMonthYoY > 0
+                            ? `+${passFlowData.FlowsMonthYoY}%`
+                            : `${passFlowData.FlowsMonthYoY}%`
+                        }}</span
+                      >
+                      <span v-else-if="passFlowData.FlowsMonthYoY === 0"
+                        >0</span
+                      >
+                      <span v-else>--</span>
                     </div>
                   </div>
                 </div>
                 <div class="year">
                   <div class="pass_flow">
                     <span class="label_title">2022年客流(万人次)</span>
-                    <span class="pass_num">2,853.89</span>
+                    <span class="pass_num">{{
+                      typeof passFlowData.FlowsYear === "number"
+                        ? passFlowData.FlowsYear
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <span class="label_title">环比(较去年):&ensp;</span>
-                    <span>↓ -4.52%</span>
+                    <span
+                      v-if="
+                        typeof passFlowData.FlowsYearQoQ === 'number' &&
+                        passFlowData.FlowsYearQoQ !== 0
+                      "
+                      :style="{
+                        color:
+                          passFlowData.FlowsYearQoQ > 0 ? '#00FF76' : '#FF3333',
+                      }"
+                      >{{ passFlowData.FlowsYearQoQ > 0 ? "↑" : "↓" }}
+                      {{
+                        passFlowData.FlowsYearQoQ > 0
+                          ? `+${passFlowData.FlowsYearQoQ}%`
+                          : `${passFlowData.FlowsYearQoQ}%`
+                      }}</span
+                    >
+                    <span v-else-if="passFlowData.FlowsYearQoQ === 0">0</span>
+                    <span v-else>--</span>
                   </div>
                 </div>
               </div>
@@ -100,12 +203,35 @@
                 <div class="month">
                   <div class="pass_flow">
                     <span class="label_title">昨日车流(辆)</span>
-                    <span class="pass_num">2,778</span>
+                    <span class="pass_num">{{
+                      typeof vehicleData.FlowsYesterday === "number"
+                        ? vehicleData.FlowsYesterday.toLocaleString()
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <div>
                       <span class="label_title">环比(较上一月):&ensp;</span>
-                      <span>↓ -4.52%</span>
+                      <span
+                        v-if="
+                          typeof vehicleData.FlowsMonthQoQ === 'number' &&
+                          vehicleData.FlowsMonthQoQ !== 0
+                        "
+                        :style="{
+                          color:
+                            vehicleData.FlowsMonthQoQ > 0
+                              ? '#00FF76'
+                              : '#FF3333',
+                        }"
+                        >{{ vehicleData.FlowsMonthQoQ > 0 ? "↑" : "↓" }}
+                        {{
+                          vehicleData.FlowsMonthQoQ > 0
+                            ? `+${vehicleData.FlowsMonthQoQ}%`
+                            : `${vehicleData.FlowsMonthQoQ}%`
+                        }}</span
+                      >
+                      <span v-else-if="vehicleData.FlowsMonthQoQ === 0">0</span>
+                      <span v-else>--</span>
                     </div>
                   </div>
                 </div>
@@ -116,7 +242,20 @@
                   </div>
                   <div class="percent">
                     <span class="label_title">同比(上周同日):&ensp;</span>
-                    <span>↑ +12.00%</span>
+                    <span
+                      v-if="
+                        typeof vehicleData.FlowsDayYoY === 'number' &&
+                        vehicleData.FlowsDayYoY !== 0
+                      "
+                      :style="{
+                        color:
+                          vehicleData.FlowsDayYoY > 0 ? '#00FF76' : '#FF3333',
+                      }"
+                      >{{ vehicleData.FlowsDayYoY > 0 ? "↑" : "↓" }}
+                      {{ vehicleData.FlowsDayYoY + "%" }}
+                    </span>
+                    <span v-else-if="vehicleData.FlowsDayYoY === 0">0</span>
+                    <span v-else>--</span>
                   </div>
                 </div>
               </div>
@@ -125,28 +264,91 @@
               <div class="bott_wrapper">
                 <div class="month">
                   <div class="pass_flow">
-                    <span class="label_title">7月销售额(万元)</span>
-                    <span class="pass_num">2,520.92</span>
+                    <span class="label_title">8月车流(万辆)</span>
+                    <span class="pass_num">{{
+                      typeof vehicleData.FlowsMonth === "number"
+                        ? vehicleData.FlowsMonth.toLocaleString()
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <div>
                       <span class="label_title">环比(较上一月):&ensp;</span>
-                      <span>↓ -4.52%</span>
+                      <span
+                        v-if="
+                          typeof vehicleData.FlowsMonthQoQ === 'number' &&
+                          vehicleData.FlowsMonthQoQ !== 0
+                        "
+                        :style="{
+                          color:
+                            vehicleData.FlowsMonthQoQ > 0
+                              ? '#00FF76'
+                              : '#FF3333',
+                        }"
+                        >{{ vehicleData.FlowsMonthQoQ > 0 ? "↑" : "↓" }}
+                        {{
+                          vehicleData.FlowsMonthQoQ > 0
+                            ? `+${vehicleData.FlowsMonthQoQ}%`
+                            : `${vehicleData.FlowsMonthQoQ}%`
+                        }}</span
+                      >
+                      <span v-else-if="vehicleData.FlowsMonthQoQ === 0">0</span>
+                      <span v-else>--</span>
                     </div>
                     <div>
                       <span class="label_title">同比(去年同月):&ensp;</span>
-                      <span>↑ +12.00%</span>
+                      <span
+                        v-if="
+                          typeof vehicleData.FlowsMonthYoY === 'number' &&
+                          vehicleData.FlowsMonthYoY !== 0
+                        "
+                        :style="{
+                          color:
+                            vehicleData.FlowsMonthYoY > 0
+                              ? '#00FF76'
+                              : '#FF3333',
+                        }"
+                        >{{ vehicleData.FlowsMonthYoY > 0 ? "↑" : "↓" }}
+                        {{
+                          vehicleData.FlowsMonthYoY > 0
+                            ? `+${vehicleData.FlowsMonthYoY}%`
+                            : `${vehicleData.FlowsMonthYoY}%`
+                        }}</span
+                      >
+                      <span v-else-if="vehicleData.FlowsMonthYoY === 0">0</span>
+                      <span v-else>--</span>
                     </div>
                   </div>
                 </div>
                 <div class="year">
                   <div class="pass_flow">
                     <span class="label_title">2022年车流(万辆)</span>
-                    <span class="pass_num">2,853.89</span>
+                    <span class="pass_num">{{
+                      typeof vehicleData.FlowsYear === "number"
+                        ? vehicleData.FlowsYear
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <span class="label_title">环比(较去年):&ensp;</span>
-                    <span>↓ -4.52%</span>
+                    <span
+                      v-if="
+                        typeof vehicleData.FlowsYearQoQ === 'number' &&
+                        vehicleData.FlowsYearQoQ !== 0
+                      "
+                      :style="{
+                        color:
+                          vehicleData.FlowsYearQoQ > 0 ? '#00FF76' : '#FF3333',
+                      }"
+                      >{{ vehicleData.FlowsYearQoQ > 0 ? "↑" : "↓" }}
+                      {{
+                        vehicleData.FlowsYearQoQ > 0
+                          ? `+${vehicleData.FlowsYearQoQ}%`
+                          : `${vehicleData.FlowsYearQoQ}%`
+                      }}</span
+                    >
+                    <span v-else-if="vehicleData.FlowsYearQoQ === 0">0</span>
+                    <span v-else>--</span>
                   </div>
                 </div>
               </div>
@@ -162,13 +364,34 @@
               <div class="bott_wrapper">
                 <div class="month">
                   <div class="pass_flow">
-                    <span class="label_title">8月车流(万辆)</span>
-                    <span class="pass_num">31.85</span>
+                    <span class="label_title">7月销售额(万元)</span>
+                    <span class="pass_num">{{
+                      typeof saleCardData.SalesAmount === "number"
+                        ? saleCardData.SalesAmount.toLocaleString()
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <div>
                       <span class="label_title">环比(较上一月):&ensp;</span>
-                      <span>↓ -4.52%</span>
+                      <span
+                        v-if="
+                          typeof saleCardData.SalesMoM === 'number' &&
+                          saleCardData.SalesMoM !== 0
+                        "
+                        :style="{
+                          color:
+                            saleCardData.SalesMoM > 0 ? '#00FF76' : '#FF3333',
+                        }"
+                        >{{ saleCardData.SalesMoM > 0 ? "↑" : "↓" }}
+                        {{
+                          saleCardData.SalesMoM > 0
+                            ? `+${saleCardData.SalesMoM}%`
+                            : `${saleCardData.SalesMoM}%`
+                        }}</span
+                      >
+                      <span v-else-if="saleCardData.SalesMoM === 0">0</span>
+                      <span v-else>--</span>
                     </div>
                   </div>
                 </div>
@@ -179,7 +402,24 @@
                   </div>
                   <div class="percent">
                     <span class="label_title">同比(去年同月):&ensp;</span>
-                    <span>↑ +12.00%</span>
+                    <span
+                      v-if="
+                        typeof saleCardData.SalesYoY === 'number' &&
+                        saleCardData.SalesYoY !== 0
+                      "
+                      :style="{
+                        color:
+                          saleCardData.SalesYoY > 0 ? '#00FF76' : '#FF3333',
+                      }"
+                      >{{ saleCardData.SalesYoY > 0 ? "↑" : "↓" }}
+                      {{
+                        saleCardData.SalesYoY > 0
+                          ? `+${saleCardData.SalesYoY}%`
+                          : `${saleCardData.SalesYoY}%`
+                      }}</span
+                    >
+                    <span v-else-if="saleCardData.SalesYoY === 0">0</span>
+                    <span v-else>--</span>
                   </div>
                 </div>
               </div>
@@ -189,17 +429,41 @@
                 <div class="month">
                   <div class="pass_flow">
                     <span class="label_title">7月提袋率</span>
-                    <span class="pass_num">80.23%</span>
+                    <span class="pass_num">{{
+                      typeof saleCardData.BagRate === "number"
+                        ? saleCardData.BagRate + "%"
+                        : "--"
+                    }}</span>
                   </div>
                 </div>
                 <div class="year">
                   <div class="pass_flow">
                     <span class="label_title">7月客单价(元)</span>
-                    <span class="pass_num">2,853.89</span>
+                    <span class="pass_num">{{
+                      typeof saleCardData.ATV === "number"
+                        ? saleCardData.ATV
+                        : "--"
+                    }}</span>
                   </div>
                   <div class="percent">
                     <span class="label_title">环比(较去年):&ensp;</span>
-                    <span>↓ -4.52%</span>
+                    <span
+                      v-if="
+                        typeof saleCardData.ATVMoM === 'number' &&
+                        saleCardData.ATVMoM !== 0
+                      "
+                      :style="{
+                        color: saleCardData.ATVMoM > 0 ? '#00FF76' : '#FF3333',
+                      }"
+                      >{{ saleCardData.ATVMoM > 0 ? "↑" : "↓" }}
+                      {{
+                        saleCardData.ATVMoM > 0
+                          ? `+${saleCardData.ATVMoM}%`
+                          : `${saleCardData.ATVMoM}%`
+                      }}</span
+                    >
+                    <span v-else-if="saleCardData.ATVMoM === 0">0</span>
+                    <span v-else>--</span>
                   </div>
                 </div>
               </div>
@@ -369,6 +633,7 @@
 
 <script>
 // import { $http } from "@/shared/axios";
+import { getTrafficKpiData, getVehicleKpiData, getSaleKpiData } from "./api.js";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 import ProgressBar from "vue-simple-progress";
@@ -424,6 +689,9 @@ export default {
             color: "#ffffff",
           },
           padding: 10,
+          axisPointer: {
+            type: "shadow",
+          },
         },
         grid: {
           // top: "10%",
@@ -540,6 +808,9 @@ export default {
             color: "#ffffff",
           },
           padding: 10,
+          axisPointer: {
+            type: "shadow",
+          },
         },
         grid: {
           // top: "10%",
@@ -749,14 +1020,51 @@ export default {
       },
       tootipTimer: null,
       tootipSaleChart: null,
+      passFlowData: {
+        Month: null,
+        Year: null,
+        FlowsYesterday: null,
+        FlowsDayQoQ: null,
+        FlowsDayYoY: null,
+        FlowsMonth: null,
+        FlowsMonthQoQ: null,
+        FlowsMonthYoY: null,
+        FlowsYear: null,
+        FlowsYearQoQ: null,
+      },
+      vehicleData: {
+        Month: null,
+        Year: null,
+        FlowsYesterday: null,
+        FlowsDayQoQ: null,
+        FlowsDayYoY: null,
+        FlowsMonth: null,
+        FlowsMonthQoQ: null,
+        FlowsMonthYoY: null,
+        FlowsYear: null,
+        FlowsYearQoQ: null,
+      },
+      saleCardData: {
+        Month: null,
+        Year: null,
+        SalesAmount: null,
+        SalesMoM: null,
+        SalesYoY: null,
+        BagRate: null,
+        ATV: null,
+        ATVMoM: null,
+      },
     };
   },
 
   mounted: function () {
+    this.getTrafficCardData();
+    this.getVehicleCardData();
+    this.getSaleCardData();
     setInterval(() => {
       this.val = parseInt(Math.random() * 100000).toLocaleString();
     }, 4000);
-    console.log(this.$refs.passRef.chart, this.$refs.saleRef.chart);
+    // console.log(this.$refs.passRef.chart, this.$refs.saleRef.chart);
     this.tootipTimer && this.tooltipTimer.clearLoop();
     this.tootipTimer = 0;
     this.tootipSaleChart = autoHover(
@@ -766,8 +1074,149 @@ export default {
       2500
     );
   },
-  methods: {},
-  destroyed: function () {
+  methods: {
+    getTrafficCardData: async function () {
+      try {
+        const res = await getTrafficKpiData();
+        console.log(res);
+        if (Object.prototype.toString.call(res)) {
+          this.passFlowData = {
+            ...this.passFlowData,
+            Month: res.Month || "--",
+            Year: res.Year || "--",
+            FlowsYesterday: res.FlowsYesterday,
+            FlowsDayQoQ: res.FlowsDayQoQ,
+            FlowsDayYoY: res.FlowsDayYoY,
+            FlowsMonth: res.FlowsMonth,
+            FlowsMonthQoQ: res.FlowsMonthQoQ,
+            FlowsMonthYoY: res.FlowsMonthYoY,
+            FlowsYear: res.FlowsYear,
+            FlowsYearQoQ: res.FlowsYearQoQ,
+          };
+        } else {
+          this.passFlowData = Object.assign(this.passFlowData, {
+            Month: null,
+            Year: null,
+            FlowsYesterday: null,
+            FlowsDayQoQ: null,
+            FlowsDayYoY: null,
+            FlowsMonth: null,
+            FlowsMonthQoQ: null,
+            FlowsMonthYoY: null,
+            FlowsYear: null,
+            FlowsYearQoQ: null,
+          });
+        }
+      } catch (error) {
+        console.warn(error);
+        this.passFlowData = Object.assign(this.passFlowData, {
+          Month: null,
+          Year: null,
+          FlowsYesterday: null,
+          FlowsDayQoQ: null,
+          FlowsDayYoY: null,
+          FlowsMonth: null,
+          FlowsMonthQoQ: null,
+          FlowsMonthYoY: null,
+          FlowsYear: null,
+          FlowsYearQoQ: null,
+        });
+      }
+    },
+    getVehicleCardData: async function () {
+      try {
+        const res = await getVehicleKpiData();
+        console.log(res);
+        if (Object.prototype.toString.call(res)) {
+          this.vehicleData = {
+            ...this.vehicleData,
+            Month: res.Month || "--",
+            Year: res.Year || "--",
+            FlowsYesterday: res.FlowsYesterday,
+            FlowsDayQoQ: res.FlowsDayQoQ,
+            FlowsDayYoY: res.FlowsDayYoY,
+            FlowsMonth: res.FlowsMonth,
+            FlowsMonthQoQ: res.FlowsMonthQoQ,
+            FlowsMonthYoY: res.FlowsMonthYoY,
+            FlowsYear: res.FlowsYear,
+            FlowsYearQoQ: res.FlowsYearQoQ,
+          };
+        } else {
+          this.vehicleData = Object.assign(this.vehicleData, {
+            Month: null,
+            Year: null,
+            FlowsYesterday: null,
+            FlowsDayQoQ: null,
+            FlowsDayYoY: null,
+            FlowsMonth: null,
+            FlowsMonthQoQ: null,
+            FlowsMonthYoY: null,
+            FlowsYear: null,
+            FlowsYearQoQ: null,
+          });
+        }
+      } catch (error) {
+        console.warn(error);
+        this.vehicleData = Object.assign(this.vehicleData, {
+          Month: null,
+          Year: null,
+          FlowsYesterday: null,
+          FlowsDayQoQ: null,
+          FlowsDayYoY: null,
+          FlowsMonth: null,
+          FlowsMonthQoQ: null,
+          FlowsMonthYoY: null,
+          FlowsYear: null,
+          FlowsYearQoQ: null,
+        });
+      }
+    },
+    getSaleCardData: async function () {
+      try {
+        const res = await getSaleKpiData();
+        console.log(res);
+        if (Object.prototype.toString.call(res)) {
+          this.saleCardData = {
+            ...this.saleCardData,
+            Month: res.Month || "--",
+            Year: res.Year || "--",
+            SalesAmount: res.SalesAmount,
+            SalesMoM: res.SalesMoM,
+            SalesYoY: res.SalesYoY,
+            BagRate: res.BagRate,
+            ATV: res.ATV,
+            ATVMoM: res.ATVMoM,
+          };
+        } else {
+          this.saleCardData = {
+            ...this.saleCardData,
+            Month: null,
+            Year: null,
+            SalesAmount: null,
+            SalesMoM: null,
+            SalesYoY: null,
+            BagRate: null,
+            ATV: null,
+            ATVMoM: null,
+          };
+        }
+      } catch (error) {
+        console.warn(error);
+        this.saleCardData = {
+          ...this.saleCardData,
+          Month: null,
+          Year: null,
+          SalesAmount: null,
+          SalesMoM: null,
+          SalesYoY: null,
+          BagRate: null,
+          ATV: null,
+          ATVMoM: null,
+        };
+      }
+    },
+  },
+  beforeDestroy: function () {
     clearInterval(this.tootipTimer);
     clearInterval(this.tootipSaleChart);
   },
@@ -776,523 +1225,5 @@ export default {
 
 <style lang="less">
 @import "@/assets/base.less";
-@baseHeight: 1080;
-.pxToVh(@attr, @px) {
-  @{attr}: unit((@px / @baseHeight * 100), vh);
-}
-html,
-body {
-  width: 100%;
-  height: 100vh;
-  min-width: 1920px;
-  min-height: 1080px;
-  background: url("@/assets/image/basic_bg_lg.png");
-  background-position: center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-#app {
-  font-family: "ys";
-  @font-face {
-    font-family: "ys";
-    src: url("@/assets/font/youshejianlihei.woff"),
-      url("@/assets/font/youshejianlihei.ttf") format("truetype");
-  }
-  // width: 100%;
-  // height: 100%;
-  .top__bar {
-    .pxToVh(height, 70);
-    background: url("@/assets/image/basic_top_lg.png");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: #66ccff;
-    .right {
-      font-family: Microsoft YaHei;
-      color: #66ccff;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      .pxToVh(margin-top, 10);
-      .time {
-        font-size: 20px;
-        .pxToVh(margin-right, 30);
-      }
-      .datetime {
-        font-size: 14px;
-        .pxToVh(margin-left, 20);
-        .pxToVh(margin-right, 30);
-      }
-      .weather_info {
-        display: flex;
-        align-items: center;
-        .pxToVh(margin-right, 20);
-        .weather_icon {
-          .pxToVh(margin-right, 10);
-          font-size: 30px;
-        }
-      }
-    }
-    .left {
-      float: left;
-      .pxToVh(margin-top, 14);
-      .area {
-        font-size: 24px;
-        color: #ffffff;
-        text-shadow: 0px 0px 14px rgba(0, 170, 255, 0.8);
-        .pxToVh(margin-left, 20);
-      }
-    }
-    .center {
-      font-size: 32px;
-      color: #ffffff;
-      text-shadow: 0px 0px 14px rgba(0, 170, 255, 0.8);
-      text-align: center;
-      .pxToVh(width, 370);
-      margin: 0 auto;
-      .pxToVh(line-height, 70);
-    }
-    .right {
-      float: right;
-    }
-  }
-  .middle__panel {
-    .pxToVh(padding, 20);
-    display: flex;
-    .item__panel {
-      width: calc(100% / 3);
-      .pxToVh(margin-left, 25);
-      &:first-child {
-        margin-left: 0;
-      }
-      .detail {
-        font-family: "Microsoft YaHei";
-        .pxToVh(margin-top, 20);
-        display: flex;
-        text-align: center;
-        align-items: center;
-        .flag {
-          .pxToVh(width, 160);
-          .pxToVh(height, 160);
-          .name {
-            .pxToVh(padding-top, 10);
-            font-size: 14px;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
-          }
-        }
-        .top {
-          background: url("@/assets/image/pass_lg.png") no-repeat;
-          background-position: center;
-          background-size: 100% 100%;
-        }
-        .center {
-          background: url("@/assets/image/car_lg.png") no-repeat;
-          background-position: center;
-          background-size: 100% 100%;
-        }
-        .bottom {
-          background: url("@/assets/image/sale_lg.png") no-repeat;
-          background-position: center;
-          background-size: 100% 100%;
-        }
-        .data__panel {
-          margin-left: 5px;
-          width: calc(100% - 155px);
-          .pxToVh(height, 160);
-          .bott__panel {
-            .pxToVh(margin-top, 5);
-            .pxToVh(height, 85);
-            font-size: 12px;
-            color: #ffffff;
-            text-align: left;
-            .bott_wrapper {
-              display: flex;
-              align-items: center;
-              height: 100%;
-              .month {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                justify-content: space-evenly;
-                width: 46%;
-                height: 100%;
-                background: url("@/assets/image/card_bg_lg.png") no-repeat;
-                background-size: cover;
-                background-position: center;
-                .pass_flow {
-                  display: flex;
-                  align-items: center;
-                  .label_title {
-                    margin-left: 16px;
-                    flex-shrink: 0;
-                  }
-                  .pass_num {
-                    font-size: 18px;
-                    font-weight: bold;
-                    flex: 1;
-                    .pxToVh(margin-left, 20);
-                  }
-                }
-                .percent {
-                  .label_title {
-                    margin-left: 16px;
-                    color: #b3b3b3;
-                  }
-                }
-              }
-              .year {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                justify-content: space-evenly;
-                width: 54%;
-                height: 100%;
-                .pxToVh(margin-left, 5);
-                background: url("@/assets/image/card_bg_lg.png") no-repeat;
-                background-size: cover;
-                background-position: center;
-                .pass_flow {
-                  display: flex;
-                  align-items: center;
-                  .pass_num {
-                    font-size: 18px;
-                    font-weight: bold;
-                    .pxToVh(margin-left, 20);
-                  }
-                  .label_title {
-                    .pxToVh(margin-left, 16);
-                  }
-                }
-                .percent {
-                  .label_title {
-                    .pxToVh(margin-left, 16);
-                    color: #b3b3b3;
-                  }
-                }
-              }
-            }
-          }
-          .topClass {
-            margin-top: 0;
-            .pxToVh(height, 70);
-            .bott_wrapper {
-              background: url("@/assets/image/card_bg_lg.png") no-repeat;
-              background-size: 100% 100%;
-              background-position: center;
-              .month,
-              .year {
-                background: none;
-                .placeholders {
-                  opacity: 0;
-                  visibility: hidden;
-                }
-              }
-            }
-          }
-          .yesterday {
-            text-align: left;
-            .pxToVh(padding-left, 16);
-            .pxToVh(height, 70);
-            font-size: 12px;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            justify-content: space-evenly;
-            .day__pass {
-              display: flex;
-              align-items: center;
-              .pass_num {
-                .pxToVh(margin-left, 20);
-                font-weight: bold;
-                font-size: 18px;
-              }
-            }
-            .chain__yoy {
-              display: flex;
-              align-items: center;
-              .chain {
-                width: calc(50% - 21px);
-                .label_title {
-                  color: #b3b3b3;
-                }
-              }
-              .yoy {
-                width: 50%;
-                margin-left: 16px;
-                .label_title {
-                  color: #b3b3b3;
-                }
-              }
-            }
-            .flow {
-              .num {
-                .pxToVh(margin-left, 20);
-                font-size: 18px;
-                font-weight: bold;
-              }
-            }
-            .percent {
-              .title {
-                color: #b3b3b3;
-              }
-            }
-          }
-        }
-      }
-      .detail-center,
-      .detail-bottom {
-        .pxToVh(margin-top, 15);
-      }
-      .realtime_card_box {
-        font-family: "Microsoft YaHei";
-        margin: 0 auto;
-        .pxToVh(margin-top, 10);
-        width: 97%;
-        .pxToVh(height, 262);
-        background: url("@/assets/image/retime_bg_lg.png") no-repeat;
-        background-position: center;
-        background-size: 100% 100%;
-        .title {
-          .pxToVh(padding-top, 30);
-          .pxToVh(padding-bottom, 27);
-          text-align: center;
-          font-size: 14px;
-          font-weight: bold;
-          color: #ffffff;
-          text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
-        }
-        .logo_pass,
-        .logo_car {
-          margin: 0 auto;
-          .pxToVh(width, 70);
-          .pxToVh(height, 56);
-        }
-        .logo_pass {
-          background: url("@/assets/image/realtime_lg.png") no-repeat;
-          background-size: cover;
-          background-position: center;
-        }
-        .logo_car {
-          background: url("@/assets/image/car_flow_lg.png") no-repeat;
-          background-size: cover;
-          background-position: center;
-        }
-        .flow_data {
-          // background-color: #b3b3b3;
-          text-align: center;
-          .pxToVh(margin-top, 15);
-          .card {
-            display: inline-block;
-            margin-left: 5px;
-            .pxToVh(width, 40);
-            .pxToVh(height, 44);
-            .pxToVh(line-height, 44);
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffffff;
-            background: url("@/assets/image/passflow_bg.png") no-repeat;
-            background-position: center;
-            background-size: 100% 100%;
-            &:first-child {
-              margin-left: 0;
-            }
-          }
-          .separator {
-            background: none;
-            .pxToVh(width, 6);
-            .pxToVh(height, 44);
-            vertical-align: top;
-            .pxToVh(line-height, 32);
-          }
-          // .count-flop,
-          // .count-flop-box {
-          //   .pxToVh(height, 44);
-          //   .pxToVh(line-height, 44);
-          //   border: none;
-          //   margin-right: 0;
-          //   font-size: 24px;
-          // }
-          // .count-flop-num {
-          //   margin-left: 5px;
-          //   .pxToVh(width, 40);
-          //   .pxToVh(height, 44);
-          //   .pxToVh(line-height, 44);
-          //   font-weight: bold;
-          //   color: #ffffff;
-          //   background: url("@/assets/image/passflow_bg.png") no-repeat;
-          //   background-position: center;
-          //   background-size: 100% 100%;
-          // }
-          .count-flop {
-            display: block;
-            .pxToVh(height, 44);
-            .pxToVh(line-height, 44);
-          }
-          .count-flop-box {
-            border-radius: 0;
-            margin-right: 0;
-            margin-left: 5px;
-            border: none;
-            .pxToVh(width, 40);
-            .pxToVh(height, 44);
-            .pxToVh(line-height, 44);
-            font-weight: bold;
-            color: #ffffff;
-            background: url("@/assets/image/passflow_bg.png") no-repeat;
-            background-position: center;
-            background-size: 100% 100%;
-            font-size: 24px;
-            &:first-child {
-              margin-left: 0;
-            }
-          }
-          .count-flop-point {
-            margin-right: 0;
-            color: #ffffff;
-            margin-left: 5px;
-            .pxToVh(line-height, 26);
-            font-size: 28px;
-            .count-flop-content {
-              height: 100%;
-            }
-          }
-        }
-        .data_time {
-          .pxToVh(margin-top, 28);
-          font-size: 12px;
-          font-style: italic;
-          color: #66ccff;
-          text-align: center;
-        }
-      }
-    }
-    .item__title {
-      .pxToVh(height, 32);
-      .pxToVh(line-height, 32);
-      color: #ffffff;
-      font-size: 16px;
-      text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
-      .pxToVh(padding-left, 15);
-      background: url("@/assets/image/item_title_lg.png");
-      background-position: center;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-    }
-  }
-  .realtime_flow_acc {
-    // background-color: #50575a;
-    .pxToVh(padding-top, 20);
-    .pxToVh(height, 240);
-    .passflow_chart {
-      height: 100%;
-    }
-  }
-  .bottom__panel {
-    display: flex;
-    .pxToVh(padding-top, 26);
-    .pxToVh(padding-right, 20);
-    .pxToVh(padding-left, 20);
-    height: calc(100% - 700px);
-    .item_panel {
-      width: calc(100% / 3);
-      height: 100%;
-      .pxToVh(margin-left, 25);
-      &:first-child {
-        margin-left: 0;
-      }
-      .title_bar {
-        display: flex;
-        justify-content: space-between;
-        height: 32px;
-        line-height: 32px;
-        color: #ffffff;
-        font-size: 16px;
-        text-shadow: 0px 0px 10px rgba(0, 170, 255, 0.7);
-        .pxToVh(padding-left, 15);
-        background: url("@/assets/image/item_title_lg.png");
-        background-position: center;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        .title {
-          span {
-            font-size: 12px;
-          }
-        }
-        .unit {
-          font-family: "Microsoft YaHei";
-          color: #33bbff;
-          font-size: 12px;
-          font-style: italic;
-          .pxToVh(padding-right, 20);
-        }
-      }
-      .bottom_chart {
-        font-family: "Microsoft YaHei";
-        font-size: 12px;
-        .pxToVh(padding-top, 20);
-        .pxToVh(height, 328);
-        .swiper-container {
-          .pxToVh(height, 300);
-          ul {
-            li {
-              display: block;
-              .pxToVh(height, 30);
-              .pxToVh(line-height, 30);
-              display: flex;
-              align-items: center;
-              .ranking {
-                display: inline-block;
-                flex-shrink: 0;
-                .pxToVh(width, 20);
-                .pxToVh(height, 20);
-                .pxToVh(line-height, 20);
-                background: rgba(255, 187, 84, 0.2);
-                border: 1px solid #ffbb54;
-                .pxToVh(border-radius, 5);
-                text-align: center;
-                .pxToVh(margin-right, 20);
-              }
-              .progress_bandname {
-                flex: 1;
-                flex-basis: .pxToVh(width, 420);
-                line-height: normal;
-                .progress_value {
-                  display: flex;
-                  align-items: center;
-                }
-              }
-              .brand_name {
-                // flex: 2;
-                // flex-shrink: 0;
-                color: #b3b3b3;
-                text-align: right;
-                .pxToVh(margin-right, 10);
-                white-space: nowrap;
-                // width: 200px;
-                // overflow: hidden;
-                // text-overflow: ellipsis;
-              }
-              .progressbar {
-                flex: 8;
-                // flex-shrink: 16;
-              }
-              .data {
-                color: #fff;
-                flex: 1;
-                // flex-grow: 4;
-                // .pxToVh(flex-basis, 100);
-                flex-shrink: 0;
-                text-align: left;
-                .pxToVh(text-indent, 7);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+@import "./index.less";
 </style>

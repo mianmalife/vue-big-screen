@@ -33,8 +33,8 @@ export async function $http(url, config) {
   return result;
 }
 
-export async function mockData(data) {
-  return Promise.resolve(data);
+export async function mockData() {
+  return Promise.resolve(arguments[arguments.length - 1]);
 }
 
 export function withCancelToken(ajax) {
