@@ -15,7 +15,7 @@ module.exports = defineConfig({
       entry: "src/page/moon/main.js",
       template: "src/page/moon/index.html",
       filename: "moon/index.html",
-      title: "Moon page",
+      title: "Moon",
     },
     detail: {
       entry: "src/page/detail/main.js",
