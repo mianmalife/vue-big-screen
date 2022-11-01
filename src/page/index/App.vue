@@ -1,11 +1,8 @@
 <template>
   <div id="app">
-    <el-button>默认按钮</el-button>
-    <el-button type="primary">主要按钮</el-button>
-    <el-button type="success">成功按钮</el-button>
-    <el-button type="info">信息按钮</el-button>
-    <el-button type="warning">警告按钮</el-button>
-    <el-button type="danger">危险按钮</el-button>
+    <el-button @click="decreme">减1了</el-button>
+    <el-button type="primary" @click="add">加1了</el-button>
+    <el-button type="primary" @click="addTwo">加2了</el-button>
     <el-select v-model="value" placeholder="请选择">
       <el-option
         v-for="item in options"
@@ -16,10 +13,27 @@
       </el-option>
     </el-select>
     <el-slider v-model="value1"></el-slider>
+    <h2>{{ count }}</h2>
+    <h2>{{ countPlusLocalState }}</h2>
+    <h2>{{ countAlias }}</h2>
+    <h4>未完成任务</h4>
+    <ul>
+      <li v-for="task in taskIng" :key="task.id" style="margin-top: 10px">
+        <el-tag>{{ task.text }}</el-tag>
+      </li>
+    </ul>
+    <h4>已完成任务</h4>
+    <ul>
+      <li v-for="task in taskSuccess" :key="task.id">
+        <el-tag type="success">{{ task.text }}</el-tag>
+      </li>
+    </ul>
+    <h4>id等于2的是:{{ getByIdToDo[0].text }}</h4>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "App",
   data() {
@@ -48,16 +62,49 @@ export default {
       ],
       value: "",
       value1: 0,
+      localCount: 2,
     };
   },
 
   mounted() {
-    this.$message({
-      message: "恭喜你，这是一条成功消息",
-      type: "success",
-    });
+    // this.$message({
+    //   message: "恭喜你，这是一条成功消息",
+    //   type: "success",
+    // });
   },
-  methods: {},
+  computed: {
+    ...mapGetters(["taskIng", "taskSuccess"]),
+    // tasking() {
+    //   return this.$store.getters.taskIng;
+    // },
+    // taskSuccess() {
+    //   return this.$store.getters.taskSuccess;
+    // },
+    getByIdToDo() {
+      return this.$store.getters.getTodoById(2);
+    },
+    ...mapState({
+      count: (state) => state.count,
+      countAlias: "count",
+      countPlusLocalState(state) {
+        return state.count + this.localCount;
+      },
+    }),
+  },
+  methods: {
+    add() {
+      this.$store.commit("increment");
+    },
+    decreme() {
+      this.$store.commit("decrement");
+    },
+    addTwo() {
+      this.$store.commit("increment", {
+        type: "increment",
+        amount: 2,
+      });
+    },
+  },
 };
 </script>
 

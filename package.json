@@ -18,7 +18,8 @@
     "element-ui": "^2.15.10",
     "qs": "^6.11.0",
     "retry-axios": "^3.0.0",
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
