@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import { Button, Select, Option, Message, Slider, Tag } from "element-ui";
 import "@/assets/theme/element-variables.scss";
 import App from "./App.vue";
+import { INCREMENT, DECREMENT, INCREMENT_TEN } from "./mutation-types";
 
 Vue.config.productionTip = false;
 
@@ -36,21 +37,38 @@ const store = new Vuex.Store({
     task: taskList,
   },
   mutations: {
-    increment: (state, paylaod) => {
+    [INCREMENT]: (state, paylaod) => {
       console.log(paylaod);
-      if (paylaod && typeof paylaod !== "number") {
-        return (state.count += paylaod.amount);
-      } else {
-        return state.count++;
-      }
+      // if (paylaod && typeof paylaod !== "number") {
+      //   return (state.count += paylaod.amount);
+      // } else {
+      //   return state.count++;
+      // }
+      return state.count++;
     },
-    decrement: (state) => state.count--,
+    [DECREMENT]: (state) => state.count--,
+    [INCREMENT_TEN]: (state, payload) => {
+      console.log(state, payload);
+      return (state.count += payload.amount);
+    },
   },
   getters: {
     taskIng: (state) => state.task.filter((todo) => !todo.done),
     taskSuccess: (state) => state.task.filter((todo) => todo.done),
     getTodoById: (state) => (id) => {
       return state.task.filter((todo) => todo.id === id);
+    },
+  },
+  actions: {
+    incrementAsync({ commit }) {
+      setTimeout(() => {
+        commit("increment");
+      }, 2000);
+    },
+    incrementTen({ commit }, paylaod) {
+      setTimeout(() => {
+        commit(INCREMENT_TEN, paylaod);
+      }, 2000);
     },
   },
 });

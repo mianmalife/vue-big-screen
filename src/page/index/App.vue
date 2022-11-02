@@ -2,7 +2,9 @@
   <div id="app">
     <el-button @click="decreme">减1了</el-button>
     <el-button type="primary" @click="add">加1了</el-button>
-    <el-button type="primary" @click="addTwo">加2了</el-button>
+    <el-button type="primary" @click="addAsync">2s后加1了</el-button>
+    <el-button type="primary" @click="addAsyncPayload">2s后加10了</el-button>
+    <!-- <el-button type="primary" @click="addTwo">加2了</el-button> -->
     <el-select v-model="value" placeholder="请选择">
       <el-option
         v-for="item in options"
@@ -33,7 +35,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
   name: "App",
   data() {
@@ -92,16 +94,29 @@ export default {
     }),
   },
   methods: {
-    add() {
-      this.$store.commit("increment");
+    ...mapMutations({
+      add: "increment",
+      decreme: "decrement",
+      // addTwo: "decrement",
+    }),
+    // add() {
+    //   this.$store.commit("increment");
+    // },
+    // decreme() {
+    //   this.$store.commit("decrement");
+    // },
+    // addTwo() {
+    //   this.$store.commit("increment", {
+    //     type: "increment",
+    //     amount: 2,
+    //   });
+    // },
+    addAsync() {
+      this.$store.dispatch("incrementAsync");
     },
-    decreme() {
-      this.$store.commit("decrement");
-    },
-    addTwo() {
-      this.$store.commit("increment", {
-        type: "increment",
-        amount: 2,
+    addAsyncPayload() {
+      this.$store.dispatch("incrementTen", {
+        amount: 10,
       });
     },
   },
