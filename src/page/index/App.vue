@@ -3,7 +3,9 @@
     <el-button @click="decreme">减1了</el-button>
     <el-button type="primary" @click="add">加1了</el-button>
     <el-button type="primary" @click="addAsync">2s后加1了</el-button>
-    <el-button type="primary" @click="addAsyncPayload">2s后加10了</el-button>
+    <el-button type="primary" @click="addAsyncPayload({ amount: 10 })"
+      >1s后加1再1s减1</el-button
+    >
     <!-- <el-button type="primary" @click="addTwo">加2了</el-button> -->
     <el-select v-model="value" placeholder="请选择">
       <el-option
@@ -35,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "App",
   data() {
@@ -86,39 +88,44 @@ export default {
       return this.$store.getters.getTodoById(2);
     },
     ...mapState({
-      count: (state) => state.count,
-      countAlias: "count",
+      count: (state) => state.b.count,
+      countAlias: "b.count",
       countPlusLocalState(state) {
-        return state.count + this.localCount;
+        return state.b.count + this.localCount;
       },
     }),
   },
   methods: {
     ...mapMutations({
       add: "increment",
-      decreme: "decrement",
+      // decreme: "decrement",
       // addTwo: "decrement",
     }),
     // add() {
     //   this.$store.commit("increment");
     // },
-    // decreme() {
-    //   this.$store.commit("decrement");
-    // },
+    decreme() {
+      console.log(this.$store);
+      this.$store.commit("decrement");
+    },
     // addTwo() {
     //   this.$store.commit("increment", {
     //     type: "increment",
     //     amount: 2,
     //   });
     // },
-    addAsync() {
-      this.$store.dispatch("incrementAsync");
-    },
-    addAsyncPayload() {
-      this.$store.dispatch("incrementTen", {
-        amount: 10,
-      });
-    },
+    ...mapActions({
+      addAsync: "incrementAsync",
+      addAsyncPayload: "actionB",
+    }),
+    // addAsync() {
+    //   this.$store.dispatch("incrementAsync");
+    // },
+    // addAsyncPayload() {
+    //   this.$store.dispatch("incrementTen", {
+    //     amount: 10,
+    //   });
+    // },
   },
 };
 </script>

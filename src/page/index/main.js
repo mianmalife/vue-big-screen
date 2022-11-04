@@ -14,6 +14,13 @@ Vue.use(Slider);
 Vue.use(Tag);
 Vue.prototype.$message = Message;
 Vue.use(Vuex);
+function getInit() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
+}
 const taskList = [
   {
     text: "吃饭",
@@ -31,7 +38,15 @@ const taskList = [
     done: false,
   },
 ];
-const store = new Vuex.Store({
+const moduleA = {
+  state: {
+    mA: 1,
+  },
+  mutations: {},
+  actions: {},
+  getters: {},
+};
+const moduleB = {
   state: {
     count: 0,
     task: taskList,
@@ -70,6 +85,19 @@ const store = new Vuex.Store({
         commit(INCREMENT_TEN, paylaod);
       }, 2000);
     },
+    async actionA({ commit }) {
+      commit(INCREMENT, await getInit());
+    },
+    async actionB({ dispatch, commit }) {
+      await dispatch("actionA");
+      commit(DECREMENT, await getInit());
+    },
+  },
+};
+const store = new Vuex.Store({
+  modules: {
+    a: moduleA,
+    b: moduleB,
   },
 });
 new Vue({
